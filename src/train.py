@@ -11,25 +11,42 @@ import numpy as np
 X = np.load('data/train/X.npy') # shape (N, 1, 256, 256)
 Y = np.load('data/train/Y.npy')
 
+seizure_indices = np.where(Y == 1)[0]
+X_seizure = X[seizure_indices]
+Y_seizure = Y[seizure_indices]
+
+X_augmented = np.concatenate([X] + [X_seizure]*5, axis=0)
+Y_augmented = np.concatenate([Y] + [Y_seizure]*5, axis=0)
+
+
 print(f"X shape: {X.shape}")
 print(f"Y shape: {Y.shape}")
 print(f"Number of classes: {np.unique(Y)}")
 
-train_dataset = EEGDataset(X, Y, resize_to=(224, 224))
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+train_dataset = EEGDataset(X_augmented, Y_augmented, resize_to=(224, 224))
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 
 model = EEGViTClassifier(img_size=(224,224), num_classes=2)
-criterion = nn.CrossEntropyLoss()
+model.to(device)
+
+class_counts = np.bincount(Y_augmented.astype(int))
+total_samples = len(Y_augmented)
+class_weights = total_samples / (2 * class_counts)
+class_weights = torch.tensor(class_weights, dtype=torch.float32).to(device)
+print(f"Class weights: {class_weights}")
+
+
+criterion = nn.CrossEntropyLoss(weight=class_weights)
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
 
 #training loop:
 
 scaler = torch.amp.GradScaler('cuda')
 
-num_epochs = 10
+num_epochs = 50
 for epoch in range(num_epochs):
     model.train()
     running_loss = 0.0

@@ -7,11 +7,19 @@ from src.model import EEGViTClassifier
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import scipy.ndimage
+from sklearn.metrics import classification_report
 
 X_test = np.load('data/test/X.npy')
 Y_test = np.load('data/test/Y.npy')
 
-test_dataset = EEGDataset(X_test, Y_test, resize_to=(224, 224))
+seizure_indices = np.where(Y_test == 1)[0]
+X_seizure = X_test[seizure_indices]
+Y_seizure = Y_test[seizure_indices]
+
+X_augmented = np.concatenate([X_test] + [X_seizure]*5, axis=0)
+Y_augmented = np.concatenate([Y_test] + [Y_seizure]*5, axis=0)
+
+test_dataset = EEGDataset(X_augmented, Y_augmented, resize_to=(224, 224))
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 print(f"Test dataset contains {len(test_dataset)} samples with {len(test_loader)} batches")
 
@@ -23,11 +31,25 @@ model.eval()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-criterion = nn.CrossEntropyLoss()
+#criterion = nn.CrossEntropyLoss()
+
+class_counts = np.bincount(Y_augmented.astype(int))
+total_samples = len(Y_augmented)
+class_weights = total_samples / (2 * class_counts)
+class_weights = torch.tensor(class_weights, dtype=torch.float32).to(device)
+
+print(f"Class weights for evaluation: {class_weights}")
+
+# Use weighted loss for consistency
+criterion = nn.CrossEntropyLoss(weight=class_weights)
+
 correct = 0
 total = 0
 batch_losses = []
 batch_accuracies = []
+
+all_preds = []
+all_labels = []
 
 with torch.no_grad():
     for images, labels in tqdm(test_loader, desc="Evaluating", unit="batch"):
@@ -43,9 +65,18 @@ with torch.no_grad():
         batch_accuracy = (predicted == labels).sum().item() / labels.size(0)
         batch_accuracies.append(batch_accuracy)
 
+        all_preds.extend(predicted.cpu().numpy())
+        all_labels.extend(labels.cpu().numpy())
+
+
+#overall stats
 print(f'Test Accuracy: {100 * correct / total:.2f}%')
 avg_loss = np.mean(batch_losses)
 print(f'Average Loss: {avg_loss:.4f}')
+
+#classification report
+print(f"\nClassification Report:")
+print(classification_report(all_labels, all_preds, target_names=["No Seizure", "Seizure"]))
 
 smooth_losses = scipy.ndimage.gaussian_filter1d(batch_losses, sigma=2)
 smooth_accuracies = scipy.ndimage.gaussian_filter1d(batch_accuracies, sigma=2)
