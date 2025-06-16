@@ -49,4 +49,3 @@ def preprocess_and_save(edf_path, summary_path, output_dir, rank=10, resize_to=(
     np.save(Y_path, Y)
     print(f"Saved {len(X)} images to {output_dir}")
     print(f"Finished {edf_path} in {time.time() - start_time:.2f} seconds")
-
