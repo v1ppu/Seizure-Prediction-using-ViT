@@ -48,7 +48,8 @@ test_performance.png
 # Testing and development files
 main.py
 visualize_test.py
-create_train_test.py
+X.npy
+Y.npy
 
 # Jupyter Notebooks
 .ipynb_checkpoints/

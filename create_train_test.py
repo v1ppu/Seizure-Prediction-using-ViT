@@ -3,6 +3,7 @@
 from data_prep import preprocess_and_save
 
 #test on smaller subset
+# Can be changed to the full dataset later
 edf_files = [
     'chb-mit-scalp-eeg-database-1.0.0\chb01\chb01_01.edf',
     'chb-mit-scalp-eeg-database-1.0.0\chb01\chb01_02.edf',
