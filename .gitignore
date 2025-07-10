@@ -48,9 +48,6 @@ test_performance.png
 # Testing and development files
 main.py
 visualize_test.py
-X.npy
-Y.npy
-model.pth
 
 # Jupyter Notebooks
 .ipynb_checkpoints/
