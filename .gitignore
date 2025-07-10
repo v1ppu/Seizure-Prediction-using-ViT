@@ -30,6 +30,8 @@ checkpoint*.pth
 
 # Data directories and files
 data/
+data/train/
+data/test/
 chb-mit-scalp-eeg-database*/
 *.npy
 *.edf
