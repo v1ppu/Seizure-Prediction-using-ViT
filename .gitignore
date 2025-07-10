@@ -43,6 +43,7 @@ chb-mit-scalp-eeg-database*/
 *.jpeg
 *.gif
 *.svg
+*.pdf
 test_performance.png
 
 # Testing and development files
