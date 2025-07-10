@@ -3,15 +3,6 @@ import torch.nn as nn
 import math
 import timm
 
-# class EEGViTClassifier(nn.Module):
-#     def __init__(self, img_size=(224,224), num_classes=2):
-#         super().__init__()
-#         self.vit = timm.create_model('vit_base_patch16_224', pretrained=False, num_classes=num_classes)
-#         self.vit.patch_embed.proj = nn.Conv2d(1, self.vit.embed_dim, kernel_size=16, stride=16)
-
-#     def forward(self, x):
-#         return self.vit(x) 
-
 class PatchEmbedding(nn.Module):
     def __init__(self, img_size=224, patch_size=16, in_channels=1, embed_dim=768):
         super().__init__()
@@ -144,4 +135,13 @@ class EEGViTClassifier(nn.Module):
         x = self.head(x)
         return x
 
+
+# class EEGViTClassifier(nn.Module):
+#     def __init__(self, img_size=(224,224), num_classes=2):
+#         super().__init__()
+#         self.vit = timm.create_model('vit_base_patch16_224', pretrained=False, num_classes=num_classes)
+#         self.vit.patch_embed.proj = nn.Conv2d(1, self.vit.embed_dim, kernel_size=16, stride=16)
+
+#     def forward(self, x):
+#         return self.vit(x) 
         
