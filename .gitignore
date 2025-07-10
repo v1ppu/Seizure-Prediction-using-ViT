@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyTorch models and checkpoints
+*.pth
+*.pt
+model.pth
+checkpoint*.pth
+
+# Data directories and files
+data/
+chb-mit-scalp-eeg-database*/
+*.npy
+*.edf
+*.txt
+
+# Image outputs and visualizations
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+test_performance.png
+
+# Testing and development files
+main.py
+visualize_test.py
+create_train_test.py
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment and IDE
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+logs/
+
+# Requirements backup
+requirements.txt.bak
+
+# Cache directories
+.cache/
+.pytest_cache/
+
+# Scientific computing
+.spyderproject
+.spyproject
