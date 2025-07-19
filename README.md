@@ -124,5 +124,4 @@ The model's performance will be evaluated using standard metrics for seizure pre
 - **Experimentation**:
     -   Explore alternative TF representations (e.g., Continuous Wavelet Transform).
     -   Investigate other tensor decomposition methods like Tucker decomposition for different feature interactions.
-    -   Compare ViT performance against other deep learning models (e.g., CNNs, LSTMs) on the same feature images.
 - **Real-time Implementation**: Adapt the framework for a simulated real-time prediction scenario, focusing on computational efficiency.
