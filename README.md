@@ -2,7 +2,7 @@
 
 This project presents an end-to-end framework for epileptic seizure classification by transforming multi-channel EEG signals into feature-rich images and classifying them using a Vision Transformer (ViT). By leveraging Canonical Polyadic (CP) Tensor Decomposition, we transform spatio-temporal-spectral EEG data into a compact 2D representation, enabling the application of state-of-the-art vision models to a traditionally time-series based problem.
 
-The methodology is inspired by the work in the following research papers:
+The project is inspired by the work in the following research papers:
 - [Vision Transformer for End-to-End Seizure Detection and Prediction](https://ieeexplore.ieee.org/document/9734546)
 - [Tensor-Based Epileptic Seizure Prediction](https://ieeexplore.ieee.org/document/8918754)
 
